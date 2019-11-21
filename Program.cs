@@ -27,7 +27,7 @@ namespace LinQed_Practice
             };
             List<int> fourSixMultiples = numbers.Where(num =>
             {
-                bool isEven = num % 2 == 0 || num % 4 == 0;
+                bool isEven = num % 4 == 0 || num % 6 == 0;
                 return isEven;
             }).ToList();
 
@@ -50,6 +50,12 @@ namespace LinQed_Practice
             };
 
             List<string> descend = names.OrderByDescending(name => name).ToList();
+
+            // Same exercise using Sort and Reverse
+            // List<string> descend1 = names;
+            // descend1.Sort();
+            // descend1.Reverse();
+            //Sort only used on lists
 
             foreach (var name in descend)
             {
@@ -107,13 +113,18 @@ namespace LinQed_Practice
         {
               66, 12, 8, 27, 82, 34, 7, 50, 19, 46, 81, 23, 30, 4, 68, 14
         };
-            List<int> squareNumbers = wheresSquaredo.TakeWhile(num =>
-               {
-                   bool isSquared = Math.Sqrt(num) % 1 == 0;
-                   return !isSquared;
-               }).ToList();
 
-            foreach (int item in squareNumbers)
+            List<int> moreNotSquared =
+            wheresSquaredo.TakeWhile(num => Math.Sqrt(num) % 1 != 0).ToList();
+
+            // Another way to find where the square root is
+            // List<int> squareNumbers = wheresSquaredo.TakeWhile(num =>
+            //    {
+            //        bool isSquared = Math.Sqrt(num) % 1 == 0;
+            //        return !isSquared;
+            //    }).ToList();
+
+            foreach (int item in moreNotSquared)
             {
                 Console.WriteLine(item);
             }
@@ -146,6 +157,34 @@ namespace LinQed_Practice
                 }
             }
             Console.WriteLine("=====================");
+
+
+            // Groupby Cohort
+            List<Student> allStudents = new List<Student>()
+    {
+        new Student() {Name= "Lauren", Cohort = "35"},
+         new Student() {Name= "Heidi", Cohort = "30"},
+        new Student() {Name= "Dylan", Cohort = "30"},
+        new Student() {Name= "Mark", Cohort = "34"},
+        new Student() {Name= "Phil", Cohort = "34"},
+        new Student() {Name= "Aryn", Cohort = "33"},
+        new Student() {Name= "Shirish", Cohort = "33"},
+        new Student() {Name= "Madi", Cohort = "35"},
+        new Student() {Name= "Madi", Cohort = "35"}
+        };
+
+            var StudentGroups = allStudents.GroupBy(student => student.Cohort);
+
+            foreach (var group in StudentGroups)
+            {
+                Console.WriteLine($"There are {group.Count()} students in {group.Key}");
+            }
+            // find which student name shows up the most
+            var studentTheMost = allStudents.GroupBy(student => student.Name)
+            .OrderByDescending(group => group.Count())
+            .First();
+            Console.WriteLine(studentTheMost.Key);
+
 
 
             // foreach (var mill in millionaires)
